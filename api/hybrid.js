@@ -16,6 +16,14 @@ export default async function handler(req, res) {
 
   const { deepseekKey, claudeKey, paecBase64, prompt } = req.body;
 
+  // DEBUG: Log para verificar qué se recibe
+  console.log('=== HYBRID DEBUG ===');
+  console.log('DeepSeek Key recibida:', deepseekKey ? `${deepseekKey.substring(0, 10)}...` : 'FALTA');
+  console.log('Claude Key recibida:', claudeKey ? `${claudeKey.substring(0, 15)}...` : 'FALTA');
+  console.log('PAEC Base64 recibido:', paecBase64 ? `${paecBase64.substring(0, 20)}...` : 'FALTA');
+  console.log('Prompt recibido:', prompt ? `${prompt.substring(0, 50)}...` : 'FALTA');
+  console.log('==================');
+
   if (!deepseekKey || !claudeKey || !paecBase64 || !prompt) {
     return res.status(400).json({ error: 'Faltan parámetros requeridos' });
   }
@@ -117,7 +125,7 @@ La estructura debe ser idéntica a la que ya conoces.`;
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-5-haiku-latest', // Claude Haiku 3.5 (latest)
+        model: 'claude-3-haiku-20240307', // Claude Haiku 3.0 (más estable)
         max_tokens: 12000,
         messages: [
           {
@@ -144,7 +152,11 @@ La estructura debe ser idéntica a la que ya conoces.`;
 
     if (!claudeResponse.ok) {
       const errorData = await claudeResponse.json();
-      throw new Error(`Claude error: ${claudeResponse.status} - ${JSON.stringify(errorData)}`);
+      console.error('Claude Response Error:', {
+        status: claudeResponse.status,
+        error: errorData
+      });
+      throw new Error(`Claude error ${claudeResponse.status}: ${errorData.error?.message || JSON.stringify(errorData)}`);
     }
 
     const claudeData = await claudeResponse.json();
@@ -171,7 +183,7 @@ La estructura debe ser idéntica a la que ya conoces.`;
       result,
       metadata: {
         deepseek_extraction: deepseekExtraction,
-        model_used: 'claude-3-5-haiku-latest',
+        model_used: 'claude-3-haiku-20240307',
         timestamp: new Date().toISOString()
       }
     });
