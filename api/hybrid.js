@@ -113,7 +113,8 @@ La estructura debe ser idéntica a la que ya conoces.`;
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': claudeKey
+        'x-api-key': claudeKey,
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
         model: 'claude-3-5-haiku-20241022', // Claude Haiku 3.5
