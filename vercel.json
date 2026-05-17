@@ -1,6 +1,6 @@
 {
   "functions": {
-    "vercel/api/hybrid.js": {
+    "api/hybrid.js": {
       "maxDuration": 60
     }
   },
