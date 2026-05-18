@@ -125,7 +125,7 @@ La estructura debe ser idéntica a la que ya conoces.`;
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-haiku-20240307', // Claude Haiku 3.0 (más estable)
+        model: 'claude-3-5-sonnet-20241022', // Claude Sonnet 3.5 (más nuevo)
         max_tokens: 12000,
         messages: [
           {
@@ -183,7 +183,7 @@ La estructura debe ser idéntica a la que ya conoces.`;
       result,
       metadata: {
         deepseek_extraction: deepseekExtraction,
-        model_used: 'claude-3-haiku-20240307',
+        model_used: 'claude-3-5-sonnet-20241022',
         timestamp: new Date().toISOString()
       }
     });
